@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Scanning System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        .message {
+            margin-top: 10px;
+            color: green;
+        }
+        
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Document Scanning System</h1>
+
+    <div>
+        <h2>User Registration</h2>
+        <input type="text" id="username" placeholder="Enter username" />
+        <button onclick="registerUser ()">Register</button>
+        <div id="registerMessage" class="message"></div>
+    </div>
+
+    <div>
+        <h2>Scan Document</h2>
+        <button onclick="scanDocument()">Scan Document</button>
+        <div id="scanMessage" class="message"></div>
+    </div>
+
+    <div>
+        <h2>Request More Credits</h2>
+        <input type="number" id="creditAmount" placeholder="Enter credits to request" />
+        <button onclick="requestCredits()">Request Credits</button>
+        <div id="creditMessage" class="message"></div>
+    </div>
+
+    <script>
+        let users = {};
+        const dailyLimit = 20;
+
+        function registerUser() {
+            const username = document.getElementById('username').value;
+            if (username) {
+                users[username] = {
+                    credits: 20,
+                    scansToday: 0
+                };
+                document.getElementById('registerMessage').innerText = User $ {
+                    username
+                }
+                registered successfully!;
+            } else {
+                document.getElementById('registerMessage').innerText = 'Please enter a username.';
+            }
+        }
+
+        function scanDocument() {
+            const username = document.getElementById('username').value;
+            if (!users[username]) {
+                document.getElementById('scanMessage').innerText = 'User  not found. Please register first.';
+                return;
+            }
+
+            if (users[username].scansToday < dailyLimit) {
+                users[username].scansToday++;
+                document.getElementById('scanMessage').innerText = 'Scan successful!';
+            } else {
+                document.getElementById('scanMessage').innerText = 'Daily limit reached. Request more credits.';
+            }
+        }
+
+        function requestCredits() {
+            const username = document.getElementById('username').value;
+            const amount = parseInt(document.getElementById('creditAmount').value);
+
+            if (!users[username]) {
+                document.getElementById('creditMessage').innerText = 'User  not found. Please register first.';
+                return;
+            }
+
+            if (amount > 0) {
+                users[username].credits += amount;
+                users[username].scansToday = 0; // Reset daily scans
+                document.getElementById('creditMessage').innerText = Credits added.New balance: $ {
+                    users[username].credits
+                };
+            } else {
+                document.getElementById('creditMessage').innerText = 'Please enter a valid amount of credits.';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
